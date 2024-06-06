@@ -1,0 +1,4 @@
+../python/dist/tradingeconomics-4.2.3-py3-none-any.whl
+Flask==3.0.3
+SQLAlchemy==2.0.30
+requests==2.25.1
