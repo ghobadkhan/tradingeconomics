@@ -14,4 +14,4 @@ routes = Blueprint('routes', __name__, url_prefix="/api")
 
 @routes.get("/")
 def home():
-    return {}
+    return {"result":"hello"}
