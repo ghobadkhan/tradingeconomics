@@ -1,12 +1,14 @@
 import os
+import tradingeconomics as te
 from flask import Flask
 from dotenv import load_dotenv
+
 
 
 def create_app():
     app = Flask(__name__,instance_relative_config=True)
     load_dotenv()
-    # env = os.environ["FLASK_ENV"]
+    te.login(os.environ["API_KEY"])
 
     with app.app_context():
         from .routes import routes
