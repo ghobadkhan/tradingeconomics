@@ -1,1 +1,71 @@
-<p>demo works!</p>
+<main class="container">
+    <form class="demo-form">
+        <div class="form-row" style="margin-bottom: 20px;">
+            <h2>Country indicators comparison</h2>         
+        </div>
+        <div class="form-row" style="height: 8vh;">
+            <div style="display: flex; flex-direction: column;">
+                <div class="form-row">
+                    <label style="margin-right: 5px;" for="country1">Country 1:</label>
+                    <input type="text" id="country1" name="country1" [formControl]="country1">
+                </div>
+                <div class="form-row" style="margin-top: 5px;">
+                    @if(country1.invalid && (country1.dirty || country1.touched)) {
+                        <div class="validation-error">
+                            @if(country1.errors?.['required']) {
+                                <p>is required!</p>
+                            } @else if (country1.errors?.['allowedCountries']) {
+                                <p>not in allowed countries!</p>
+                            }
+                        </div>
+                    }
+                </div>                
+            </div>
+            <div style="display: flex; flex-direction: column;">
+                <div class="form-row">
+                    <label style="margin-right: 5px;" for="country2">Country 2:</label>
+                    <input type="text" id="country2" name="country2" [formControl]="country2">  
+                </div> 
+                <div class="form-row" style="margin-top: 5px;">
+                    @if(country2.invalid && (country2.dirty || country2.touched)) {
+                        <div class="validation-error">
+                            @if(country2.errors?.['required']) {
+                                <p>is required!</p>
+                            } @else if (country2.errors?.['allowedCountries']) {
+                                <p>not in allowed countries!</p>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>         
+        </div>
+        <div class="form-row">
+            <h4>Select the following indicators (max 2):</h4>         
+        </div>
+        <div class="form-row">
+            <div *ngFor="let ind of indicatorList">
+                <label style="margin-right: 5px;" [for]="'indicator'+ind.id">{{ind.name}}</label>
+                <input type="checkbox" [id]="'indicator'+ind.id"
+                [formControl]="optionControls[ind.name]" (change)="onOptionChange($event.target!)"
+                #option >
+            </div>
+        </div>
+        <div class="form-row" style="margin-bottom: 1px; margin-top: 10px;">
+            @if (!chartData) {
+                <button type="button" style="background-color: #007bff;" (click)="onSubmit()">Submit</button>
+            } @else {
+                <button type="button" style="background-color: #982f9c;" (click)="onClear()">Clear</button>
+            }
+        </div>
+        <div style="color: red;" *ngIf="this.error != ''">
+            {{error}}
+        </div>
+    </form>
+    @if (chartData) {
+        @for (item of chartData; track item.id) {
+            <div class="row">
+                <app-demo-chart [data]="item"></app-demo-chart>
+            </div>
+        }
+    }
+</main>
